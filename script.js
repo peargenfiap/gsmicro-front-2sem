@@ -1,12 +1,9 @@
-// Function to create a modal with a placeholder for the metrics table
 function createModal() {
-    // If a modal already exists, remove it to avoid duplicates
     const existingModal = document.getElementById('indicatorModal');
     if (existingModal) {
         existingModal.parentNode.removeChild(existingModal);
     }
 
-    // Modal structure
     const modalHtml = `
         <div class="modal fade" id="indicatorModal" tabindex="-1" role="dialog" aria-labelledby="indicatorModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -28,14 +25,11 @@ function createModal() {
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 }
 
-// Function to populate the modal with indicator data and metrics
 function populateModal(indicator, metrics) {
-    // Call this first to ensure we're working with a clean modal
     createModal();
 
     const modalBody = document.querySelector('#indicatorModal .modal-body');
 
-    // Add the indicator details to the modal body
     modalBody.innerHTML = `
         <div class="row">
             <div class="col-md-6">
@@ -75,17 +69,13 @@ function populateModal(indicator, metrics) {
         </table>
     `;
 
-    // Show the modal
     $('#indicatorModal').modal('show');
 }
 
-// Function to handle row click
 function handleRowClick(indicator) {
-    // Fetch the metrics for the selected indicator
     fetch(`http://localhost:8080/v1/consume/porindicador?indicatorKey=${indicator.indicatorKey}`)
         .then(response => response.json())
         .then(metrics => {
-            // Populate the modal with the indicator data and fetched metrics
             populateModal(indicator, metrics);
         })
         .catch(error => {
@@ -93,9 +83,6 @@ function handleRowClick(indicator) {
         });
 }
 
-// ... rest of the code remains unchanged ...
-
-// Fetching the initial data to populate the table
 fetch('http://localhost:8080/v1/indicator/')
     .then(response => response.json())
     .then(data => {
@@ -111,7 +98,6 @@ fetch('http://localhost:8080/v1/indicator/')
             tableBody.insertAdjacentHTML('beforeend', row);
         });
 
-        // Attach click event listeners to each row
         document.querySelectorAll('#indicator-table-body tr').forEach(row => {
             row.addEventListener('click', () => {
 
